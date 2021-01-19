@@ -2,6 +2,7 @@
 using GLib;
 using Gdk;
 using Gtk;
+// using Hdy;
 using Vte;
 
 public class Isla {
@@ -11,7 +12,7 @@ public class Isla {
 
         window = new Gtk.Window (Gtk.WindowType.TOPLEVEL); /* Create an instance from Gtk.Window */
         terminal = new Terminal (); /* Create an instance from Vte.Terminal */
-
+        
         /* Load the SHELL for example zsh or fish */
         var command = GLib.Environment.get_variable ("SHELL");
         try {
@@ -35,8 +36,11 @@ public class Isla {
 
         /* Work on the window */
         window.add (terminal); /* Add isla terminal to main window */
+        window.set_title ("Isla");
+        window.window_position = Gtk.WindowPosition.CENTER; /* Set the window position to center */
+        window.set_default_size (450, 300);
         window.set_resizable (true); /* Make window resizable to any size */
-        window.set_decorated (false); /* Disable decorated */
+        window.set_decorated (true); /* Enable decorated */
 
         try {
             window.set_icon_from_file ("./assets/logo.png"); /* Load isla terminal logo from assets directory */
@@ -51,10 +55,12 @@ public class Isla {
         Gtk.main (); /* Run the isla terminal */
     }
 
-    private static void main (string[] args) {
+    private static int main (string[] args) {
         Isla terminal; /* Isla terminal */
         Gtk.init (ref args); /* Initialize args */
         terminal = new Isla (); /* Create an instance from Isla */
         terminal.run (); /* Run the isla terminal and show everything */
+        
+        return 0; /* Return 0 */
     }
 }
