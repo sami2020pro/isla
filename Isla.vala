@@ -1,38 +1,60 @@
+/* use the deps */
+using GLib;
+using Gdk;
 using Gtk;
 using Vte;
 
 public class Isla {
-
     private Isla () {
-        Window window;
-        Terminal terminal;
+        Gtk.Window window; /* The main window */
+        Terminal terminal; /* The terminal */
 
-        window = new Window (Gtk.WindowType.TOPLEVEL);
-        terminal = new Terminal ();
+        window = new Gtk.Window (Gtk.WindowType.TOPLEVEL); /* Create an instance from Gtk.Window */
+        terminal = new Terminal (); /* Create an instance from Vte.Terminal */
+
+        /* Load the SHELL for example zsh or fish */
+        var command = GLib.Environment.get_variable ("SHELL");
+        try {
+			terminal.spawn_sync (
+				Vte.PtyFlags.DEFAULT,
+				null,                       /* Working directory */
+				new string[] { command },   /* Command */
+				null,                       /* Additional environment */
+				0,                          /* Spawn flags */
+				null,                       /* Child setup */
+				null                        /* Child pid */
+			);
+		} catch (GLib.Error e) {
+			stderr.printf (e.message); /* Panic the error message */
+		}
         
-        terminal.child_exited.connect ((t) => { Gtk.main_quit (); });
+        /* Work on the terminal */
+        terminal.child_exited.connect ((t) => { Gtk.main_quit (); }); /* Quit from window */
+        terminal.set_scrollback_lines ( 1000 ); /* Set scroll back lines */
+        terminal.set_mouse_autohide ( true ); /* Set mouse autohide */
 
-        window.add (terminal);
-        window.maximize ();
-        window.set_decorated (false);
+        /* Work on the window */
+        window.add (terminal); /* Add isla terminal to main window */
+        window.set_resizable (true); /* Make window resizable to any size */
+        window.set_decorated (false); /* Disable decorated */
 
         try {
-            window.set_icon_from_file ("./assets/logo.png");
+            window.set_icon_from_file ("./assets/logo.png"); /* Load isla terminal logo from assets directory */
         } catch (Error e) {
-            stdout.printf (e.message);
+            stderr.printf (e.message); /* Panic the error message */
         }
 
-        window.show_all ();
+        window.show_all (); /* Show everything */
     }
 
     private void run () {
-        Gtk.main ();
+        Gtk.main (); /* Run the isla terminal */
     }
 
     private static void main (string[] args) {
-        Isla terminal;
-        Gtk.init (ref args);
-        terminal = new Isla ();
-        terminal.run ();
+        Isla terminal; /* Isla terminal */
+        Gtk.init (ref args); /* Initialize args */
+        terminal = new Isla (); /* Create an instance from Isla */
+        terminal.run (); /* Run the isla terminal and show everything */
     }
 }
