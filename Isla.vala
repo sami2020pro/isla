@@ -2,10 +2,13 @@
 using GLib;
 using Gdk;
 using Gtk;
-// using Hdy;
 using Vte;
 
 public class Isla {
+    private void TreeViews () {
+
+    }
+
     private Isla () {
         Gtk.Window window; /* The main window */
         Terminal terminal; /* The terminal */
@@ -51,7 +54,7 @@ public class Isla {
         window.show_all (); /* Show everything */
     }
 
-    private void run () {
+    private void Run () {
         Gtk.main (); /* Run the isla terminal */
     }
 
@@ -59,8 +62,38 @@ public class Isla {
         Isla terminal; /* Isla terminal */
         Gtk.init (ref args); /* Initialize args */
         terminal = new Isla (); /* Create an instance from Isla */
-        terminal.run (); /* Run the isla terminal and show everything */
+        terminal.Run (); /* Run the isla terminal and show everything */
         
         return 0; /* Return 0 */
     }
 }
+
+// static gint button_press (GtkWidget *widget, GdkEvent *event)
+// {
+
+//     if (event->type == GDK_BUTTON_PRESS) {
+//         GdkEventButton *bevent = (GdkEventButton *) event; 
+//         gtk_menu_popup (GTK_MENU(widget), NULL, NULL, NULL, NULL,
+//                         bevent->button, bevent->time);
+//         /* Tell calling code that we have handled this event; the buck
+//          * stops here. */
+//         return TRUE;
+//     }
+
+//     /* Tell calling code that we have not handled this event; pass it on. */
+//     return FALSE;
+// }
+
+// protected bool match_keycode (int keyval, uint code) {
+//     #endif
+//                 Gdk.KeymapKey [] keys;
+//                 Gdk.Keymap keymap = Gdk.Keymap.get_default ();
+//                 if (keymap.get_entries_for_keyval (keyval, out keys)) {
+//                     foreach (var key in keys) {
+//                         if (code == key.keycode)
+//                             return true;
+//                     }
+//                 }
+    
+//                 return false;
+//             }
