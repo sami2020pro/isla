@@ -11,7 +11,10 @@ public class Isla {
     private Isla () {
         window = new Gtk.Window (Gtk.WindowType.TOPLEVEL); /* Create an instance from Gtk.Window */
         terminal = new Terminal (); /* Create an instance from Vte.Terminal */
-        
+
+        var display = window.get_display (); /* Create display variable */
+        var clipboard = Gtk.Clipboard.get_for_display (display, Gdk.SELECTION_CLIPBOARD); /* Create clipboard variable */
+
         /* Load the SHELL for example zsh or fish */
         var command = GLib.Environment.get_variable ("SHELL");
         try {
@@ -32,6 +35,9 @@ public class Isla {
         terminal.child_exited.connect ((t) => { Gtk.main_quit (); }); /* Quit from window */
         terminal.set_scrollback_lines ( 1000 ); /* Set scroll back lines */
         terminal.set_mouse_autohide ( true ); /* Set mouse autohide */
+
+        /* Work on the clipboard */
+        string text = clipboard.wait_for_text ();
 
         /* Work on the window */
         window.add (terminal); /* Add grid as Gtk.Widget to window */
