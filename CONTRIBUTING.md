@@ -24,6 +24,10 @@ We use the **conventional commit** pattern for our commit messages. Commit messa
 * test (a change that only includes tests)
 * chore (a change to CI, etc)
 
+Advance option just for author:
+
+* update (a new update)
+
 Lastly, make sure your commit is signed before submitting the pull request.
 
 ### Fixing bugs
